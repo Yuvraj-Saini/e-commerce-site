@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>TechStore - Premium Electronics & More</title>
+    <meta name="description" content="Discover premium electronics, fashion, books, and home essentials with smart filtering and sorting">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/placeholder.svg?height=32&width=32&text=🛍️">
+</head>
+<body>
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading amazing products...</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">🛍️</span>
+                <span class="brand-text">TechStore</span>
+            </div>
+            <div class="nav-actions">
+                <button class="nav-btn" id="wishlistBtn">
+                    <span class="icon">❤️</span>
+                    <span class="count" id="wishlistCount">0</span>
+                    <span class="hide-mobile">Wishlist</span>
+                </button>
+                <button class="nav-btn" id="cartBtn">
+                    <span class="icon">🛒</span>
+                    <span class="count" id="cartCount">0</span>
+                    <span class="hide-mobile">Cart</span>
+                </button>
+                <button class="theme-toggle" id="themeToggle">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title title-responsive">Discover Amazing Products</h1>
+                <p class="hero-subtitle text-responsive">Premium electronics, fashion, books, and home essentials with smart filtering and sorting</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">1000+</span>
+                        <span class="stat-label">Products</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Categories</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Support</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="search-section">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search products..." class="search-input">
+                <button class="search-btn">🔍</button>
+            </div>
+        </div>
+
+        <div class="controls spacing-responsive">
+            <div class="filter-group">
+                <label>
+                    <span class="filter-icon">📊</span>
+                    Sort by:
+                </label>
+                <select id="sortSelect">
+                    <option value="name">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                    <option value="price">Price (Low to High)</option>
+                    <option value="price-desc">Price (High to Low)</option>
+                    <option value="rating">Rating (Low to High)</option>
+                    <option value="rating-desc">Rating (High to Low)</option>
+                    <option value="popularity">Most Popular</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>
+                    <span class="filter-icon">💰</span>
+                    Price Range: <span class="price-display" id="priceDisplay">$0 - $1000</span>
+                </label>
+                <div class="price-range-container">
+                    <input type="range" id="minPriceRange" min="0" max="1000" value="0" step="25" class="price-slider">
+                    <input type="range" id="maxPriceRange" min="0" max="1000" value="1000" step="25" class="price-slider">
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>
+                    <span class="filter-icon">⭐</span>
+                    Min Rating:
+                </label>
+                <select id="ratingFilter">
+                    <option value="0">All Ratings</option>
+                    <option value="4">4+ Stars</option>
+                    <option value="4.5">4.5+ Stars</option>
+                </select>
+            </div>
+
+            <div class="filter-group full-width">
+                <label>
+                    <span class="filter-icon">🏷️</span>
+                    Categories:
+                </label>
+                <div class="category-filters" id="categoryFilters">
+                    <button class="category-btn active" data-category="all">All Products</button>
+                    <button class="category-btn" data-category="electronics">Electronics</button>
+                    <button class="category-btn" data-category="clothing">Fashion</button>
+                    <button class="category-btn" data-category="books">Books</button>
+                    <button class="category-btn" data-category="home">Home & Garden</button>
+                    <button class="category-btn" data-category="sports">Sports & Fitness</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <div class="results-info" id="resultsInfo">
+                <span class="results-text">Showing all products</span>
+                <button class="clear-filters" id="clearFilters" style="display: none;">Clear All Filters</button>
+            </div>
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid">⊞</button>
+                <button class="view-btn" data-view="list">☰</button>
+            </div>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+        </div>
+
+        <div class="load-more-section" id="loadMoreSection" style="display: none;">
+            <button class="load-more-btn" id="loadMoreBtn">Load More Products</button>
+        </div>
+
+        <div class="no-results" id="noResults" style="display: none;">
+            <div class="no-results-icon">🔍</div>
+            <h3>No products found</h3>
+            <p>Try adjusting your filters or search terms</p>
+            <button class="reset-filters-btn" id="resetFilters">Reset All Filters</button>
+        </div>
+    </div>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart" id="closeCart">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart">
+                <p>Your cart is empty</p>
+                <span class="empty-cart-icon">🛒</span>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total: <span id="cartTotal">$0.00</span></span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div class="wishlist-sidebar" id="wishlistSidebar">
+        <div class="wishlist-header">
+            <h3>Wishlist</h3>
+            <button class="close-wishlist" id="closeWishlist">✕</button>
+        </div>
+        <div class="wishlist-items" id="wishlistItems">
+            <div class="empty-wishlist">
+                <p>Your wishlist is empty</p>
+                <span class="empty-wishlist-icon">❤️</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-modal" id="productModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">✕</button>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
